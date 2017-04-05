@@ -2,6 +2,9 @@ package com.chelo.reyes;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
+import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.IOException;
@@ -29,6 +32,7 @@ public class AutorizaSingleton {
     }
 
     private Twitter twitter;
+    private TwitterStream twitterStream;
 
     protected AutorizaSingleton() {
         autorizeAccess();
@@ -47,8 +51,10 @@ public class AutorizaSingleton {
             builder.setOAuthConsumerSecret(prop.getProperty(CONSUMER_SECRET));
             builder.setOAuthAccessToken(prop.getProperty(ACCESS_TOKEN));
             builder.setOAuthAccessTokenSecret(prop.getProperty(ACCESS_SECRET));
-            TwitterFactory tf = new TwitterFactory(builder.build());
+            Configuration configuration = builder.build();
+            TwitterFactory tf = new TwitterFactory(configuration);
             twitter = tf.getInstance();
+            twitterStream = new TwitterStreamFactory(configuration).getInstance();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,5 +62,9 @@ public class AutorizaSingleton {
 
     public Twitter getTwitter() {
         return twitter;
+    }
+
+    public TwitterStream getTwitterStream() {
+        return twitterStream;
     }
 }
