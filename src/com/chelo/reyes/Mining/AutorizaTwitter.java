@@ -1,5 +1,6 @@
-package com.chelo.reyes;
+package com.chelo.reyes.Mining;
 
+import com.chelo.reyes.Utilities;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
@@ -14,7 +15,7 @@ import java.util.Properties;
 /**
  * Created by cheloreyes on 4/04/17.
  */
-public class AutorizaSingleton {
+public class AutorizaTwitter {
 
     private static String CONSUMER_KEY = "consumerKey";
     private static String CONSUMER_SECRET = "ConsumerSecret";
@@ -22,11 +23,11 @@ public class AutorizaSingleton {
     private static String ACCESS_SECRET = "AccessSecret";
     private static String PROPERTIES = "config.properties";
 
-    private static AutorizaSingleton instance = null;
+    private static AutorizaTwitter instance = null;
 
-    public static AutorizaSingleton getInstance() {
+    public static AutorizaTwitter getInstance() {
         if (instance == null) {
-            instance = new AutorizaSingleton();
+            instance = new AutorizaTwitter();
         }
         return instance;
     }
@@ -34,17 +35,19 @@ public class AutorizaSingleton {
     private Twitter twitter;
     private TwitterStream twitterStream;
 
-    protected AutorizaSingleton() {
+    protected AutorizaTwitter() {
         autorizeAccess();
     }
 
     public void autorizeAccess() {
-        try {
-            InputStream input = this.getClass().getClassLoader().getResourceAsStream(PROPERTIES);
-            Properties prop = new Properties();
-            prop.load(input);
-            input.close();
-
+        /*
+        InputStream input = this.getClass().getClassLoader().getResourceAsStream(PROPERTIES);
+        Properties prop = new Properties();
+        prop.load(input);
+        input.close();
+        */
+        Properties prop = Utilities.getProperties(this.getClass());
+        if(prop != null){
             ConfigurationBuilder builder = new ConfigurationBuilder();
             builder.setDebugEnabled(true);
             builder.setOAuthConsumerKey(prop.getProperty(CONSUMER_KEY));
@@ -55,8 +58,6 @@ public class AutorizaSingleton {
             TwitterFactory tf = new TwitterFactory(configuration);
             twitter = tf.getInstance();
             twitterStream = new TwitterStreamFactory(configuration).getInstance();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

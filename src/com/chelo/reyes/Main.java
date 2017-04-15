@@ -1,11 +1,14 @@
 package com.chelo.reyes;
 
+import com.chelo.reyes.Cassandra.SetupKeySpace;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        //AutorizaSingleton test = new AutorizaSingleton();
-        StreamMining mining = new StreamMining();
+        //AutorizaTwitter test = new AutorizaTwitter();
+        //StreamMining mining = new StreamMining();
+        SetupKeySpace repo = new SetupKeySpace();
     }
 
 

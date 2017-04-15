@@ -1,4 +1,4 @@
-package com.chelo.reyes;
+package com.chelo.reyes.Mining;
 
 import twitter4j.*;
 
@@ -12,7 +12,7 @@ public class StreamMining {
     private StatusListener streamListener = new StatusListener() {
         @Override
         public void onStatus(Status status) {
-            System.out.println(status.getText());
+            System.out.println(status.getText() + " - " + status.getGeoLocation()+ " - " + status.getPlace().getStreetAddress());
         }
 
         @Override
@@ -27,7 +27,7 @@ public class StreamMining {
 
         @Override
         public void onScrubGeo(long l, long l1) {
-
+            System.out.println("srubGeo" + l + " - " + l1);
         }
 
         @Override
@@ -42,8 +42,8 @@ public class StreamMining {
     };
 
     public StreamMining() {
-        iTwitter = AutorizaSingleton.getInstance().getTwitter();
-        iStream = AutorizaSingleton.getInstance().getTwitterStream();
+        iTwitter = AutorizaTwitter.getInstance().getTwitter();
+        iStream = AutorizaTwitter.getInstance().getTwitterStream();
         configStreamReading();
     }
 
