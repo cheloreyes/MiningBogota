@@ -1,10 +1,10 @@
 package com.chelo.reyes.Model;
 
-import twitter4j.Place;
+import twitter4j.HashtagEntity;
+import twitter4j.Status;
+import twitter4j.URLEntity;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by cheloreyes on 15/04/17.
@@ -17,7 +17,7 @@ public class Tweet {
     private int favoriteCount;
     private double latitude;
     private double longitude;
-    private Place place;
+    private MyPlace place;
     private long retweetCount;
     private boolean sensitive;
     private String lang;
@@ -26,22 +26,48 @@ public class Tweet {
     private String scope;
     private String userId;
 
-    public Tweet(Date createAt, long id, String text, String source, int favoriteCount, double latitude, double longitude, Place place, long retweetCount, boolean sensitive, String lang, Set<String> url, List<String> hashtags, String scope, String userId) {
-        this.createAt = createAt;
-        this.id = id;
-        this.text = text;
-        this.source = source;
-        this.favoriteCount = favoriteCount;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.place = place;
-        this.retweetCount = retweetCount;
-        this.sensitive = sensitive;
-        this.lang = lang;
-        this.url = url;
-        this.hashtags = hashtags;
-        this.scope = scope;
-        this.userId = userId;
+    public Tweet(Status status) {
+        if(status != null){
+            try{
+                this.createAt = status.getCreatedAt();
+                this.favoriteCount = status.getFavoriteCount();
+                this.id = status.getId();
+                this.text = status.getText();
+                this.source = status.getSource();
+                this.latitude = (status.getGeoLocation()!=null)? status.getGeoLocation().getLatitude(): 0;
+                this.longitude = (status.getGeoLocation()!=null)? status.getGeoLocation().getLongitude(): 0;
+                this.place = new MyPlace(status.getPlace());
+                this.retweetCount = status.getRetweetCount();
+                this.sensitive = status.isPossiblySensitive();
+                this.lang = status.getLang();
+                this.url = getUrlList(status.getURLEntities());
+                this.hashtags = getHashtagsList(status.getHashtagEntities());
+                this.scope = (status.getScopes()!=null)? status.getScopes().toString(): "";
+                this.userId = Long.toString((status.getUser()!=null)? status.getUser().getId(): -1);
+            }catch (NullPointerException e){
+                System.out.println("Error parsing tweet: " + e.getLocalizedMessage());
+            }
+        }
+    }
+
+    private List<String> getHashtagsList(HashtagEntity[] hashtagEntities) {
+        List<String> hashtagsList = new ArrayList<>();
+        if(hashtagEntities != null){
+            for(HashtagEntity entity: hashtagEntities){
+                hashtagsList.add(entity.getText());
+            }
+        }
+        return hashtagsList;
+    }
+
+    private Set<String> getUrlList(URLEntity[] urlEntities) {
+        Set<String> urlList  = new HashSet<>();
+        if(urlEntities != null){
+            for(URLEntity entity: urlEntities){
+                urlList.add(entity.getURL());
+            }
+        }
+        return urlList;
     }
 
     public Date getCreateAt() {
@@ -100,11 +126,11 @@ public class Tweet {
         this.longitude = longitude;
     }
 
-    public Place getPlace() {
+    public MyPlace getPlace() {
         return place;
     }
 
-    public void setPlace(Place place) {
+    public void setPlace(MyPlace place) {
         this.place = place;
     }
 

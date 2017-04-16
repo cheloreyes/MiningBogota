@@ -1,5 +1,7 @@
 package com.chelo.reyes.Mining;
 
+import com.chelo.reyes.Cassandra.CassandraWorker;
+import com.chelo.reyes.Model.Tweet;
 import twitter4j.*;
 
 /**
@@ -8,11 +10,13 @@ import twitter4j.*;
 public class StreamMining {
     private Twitter iTwitter;
     private TwitterStream iStream;
+    private CassandraWorker worker;
 
     private StatusListener streamListener = new StatusListener() {
         @Override
         public void onStatus(Status status) {
-            System.out.println(status.getText() + " - " + status.getGeoLocation()+ " - " + status.getPlace().getStreetAddress());
+            Tweet tweet = new Tweet(status);
+            worker.addTweet(tweet);
         }
 
         @Override
@@ -27,7 +31,7 @@ public class StreamMining {
 
         @Override
         public void onScrubGeo(long l, long l1) {
-            System.out.println("srubGeo" + l + " - " + l1);
+
         }
 
         @Override
@@ -44,6 +48,7 @@ public class StreamMining {
     public StreamMining() {
         iTwitter = AutorizaTwitter.getInstance().getTwitter();
         iStream = AutorizaTwitter.getInstance().getTwitterStream();
+        this.worker = new CassandraWorker();
         configStreamReading();
     }
 
