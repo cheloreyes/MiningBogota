@@ -11,8 +11,18 @@
       <root url="jar://$PROJECT_DIR$/lib/guava-16.0.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/metrics-core-3.1.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/cassandra-driver-core-3.0.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-handler-4.0.37.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-buffer-4.0.37.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-common-4.0.37.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-transport-4.0.37.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/netty-codec-4.0.37.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-16.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/metrics-core-3.1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.7.jar!/" />
     </CLASSES>
     <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/cassandra-driver-core-3.0.7-javadoc.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/cassandra-driver-core-3.0.7-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />

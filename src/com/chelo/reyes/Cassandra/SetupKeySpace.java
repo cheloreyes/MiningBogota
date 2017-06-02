@@ -23,12 +23,13 @@ public class SetupKeySpace {
         //dropKeyspace();
 
         this.ready = tableExist();
+        //ready = false;
         if(!ready){
             createKeyspace();
             //createTypePlace();
             createTable();
         }
-        getAllTable();
+        //getAllTable();
 
     }
 
@@ -37,7 +38,7 @@ public class SetupKeySpace {
     }
 
     private void createKeyspace(){
-        String query = "CREATE KEYSPACE IF NOT EXISTS MiningBogota WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'dc1' : 3};";
+        String query = "CREATE KEYSPACE IF NOT EXISTS MiningBogota WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'datacenter1' : 3};";
         session.execute(query);
     }
 

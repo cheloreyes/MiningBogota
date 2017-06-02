@@ -11,10 +11,15 @@ public class StreamMining {
     private Twitter iTwitter;
     private TwitterStream iStream;
     private CassandraWorker worker;
+    private int count = 0;
 
     private StatusListener streamListener = new StatusListener() {
         @Override
         public void onStatus(Status status) {
+            count++;
+            if (count % 100 == 0) {
+                notifyWithTweet(String.valueOf(count));
+            }
             Tweet tweet = new Tweet(status);
             worker.addTweet(tweet);
         }
@@ -62,6 +67,14 @@ public class StreamMining {
         if(iStream!= null){
             iStream.addListener(streamListener);
             iStream.filter(tweetFilter);
+        }
+    }
+
+    private void notifyWithTweet(String message) {
+        try {
+            iTwitter.updateStatus(message + " #Cassandra #RaspberryPi #Streaming #itsalive");
+        } catch (TwitterException e) {
+            e.printStackTrace();
         }
     }
 }
